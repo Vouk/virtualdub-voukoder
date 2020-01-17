@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ffffb8f5-dd7a-41a8-8547-d11f0d869c06}</UniqueIdentifier>
+      <Extensions>lina</Extensions>
+    </Filter>
+    <Filter Include="Source Files\render">
+      <UniqueIdentifier>{28734bd8-26d0-40bb-a0e1-124e9fea29f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\batch">
+      <UniqueIdentifier>{9275af5e-125c-4402-a38a-e1e6a985122c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\audiofilters.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\capture.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\crash.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\dialogs.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\fxvideo.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\htmltoc.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\layout.css">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\render.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\root.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\videofilters.lina">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\render\compression.lina">
+      <Filter>Source Files\render</Filter>
+    </None>
+    <None Include="source\render\externalencoder.lina">
+      <Filter>Source Files\render</Filter>
+    </None>
+    <None Include="source\batch\distributed.lina">
+      <Filter>Source Files\batch</Filter>
+    </None>
+    <None Include="Makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="source\fullstop.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\x86">
+      <UniqueIdentifier>{b1cf7752-5ebd-4f11-9338-fbb2f38df39a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\x86">
+      <UniqueIdentifier>{d6490f7b-d168-4438-8526-ceebfddd7a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Interface Files">
+      <UniqueIdentifier>{f87d9f75-42ac-48ad-9be3-669d8c4a4bbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pixel Shaders">
+      <UniqueIdentifier>{dc24ec58-1bc5-42fd-a120-a344d07228c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compiled Pixel Shaders">
+      <UniqueIdentifier>{3a34c291-4ec9-4889-ba97-e6ac3e626d8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assembly Files %28x86%29">
+      <UniqueIdentifier>{2e67f7af-11c9-43d0-9bd0-0d6b4746a493}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\Blur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DSP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\SingleValueDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFAliasFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFBlendLayers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFBlur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFBoxBlur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFBrightCont.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFChromaSmoother.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFConvertFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFDeinterlace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFFieldBob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFFieldBob2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFFieldDelay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFFieldSwap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFFlipHorizontally.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFFlipVertically.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFGammaCorrect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFGrayscale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFHSV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFInterlace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFInterpolate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFInvert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFIVTC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFMergeLayers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFMotionBlur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFNull.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFPerspective.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFReduce2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFReduce2HQ.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFRotate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFRotate2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFSharpen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFSmoother.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFTemporalSmoother.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFThreshold.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFTV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFWarpResize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VFWarpSharp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\x86\DSP_SSE2.cpp">
+      <Filter>Source Files\x86</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="h\Blur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\DSP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="res\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\SingleValueDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\x86\DSP_SSE2.h">
+      <Filter>Header Files\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\VDFilters\VFList.h">
+      <Filter>Interface Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\VDFilters.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <PixelShaderAssembler Include="source\VFBlendLayers.vdshaders">
+      <Filter>Pixel Shaders</Filter>
+    </PixelShaderAssembler>
+    <PixelShaderAssembler Include="source\VFBlur.vdshaders">
+      <Filter>Pixel Shaders</Filter>
+    </PixelShaderAssembler>
+    <PixelShaderAssembler Include="source\VFBrightCont.vdshaders">
+      <Filter>Pixel Shaders</Filter>
+    </PixelShaderAssembler>
+    <PixelShaderAssembler Include="source\VFDeinterlace.vdshaders">
+      <Filter>Pixel Shaders</Filter>
+    </PixelShaderAssembler>
+    <PixelShaderAssembler Include="source\VFGrayscale.vdshaders">
+      <Filter>Pixel Shaders</Filter>
+    </PixelShaderAssembler>
+    <PixelShaderAssembler Include="source\VFInvert.vdshaders">
+      <Filter>Pixel Shaders</Filter>
+    </PixelShaderAssembler>
+    <PixelShaderAssembler Include="source\VFMergeLayers.vdshaders">
+      <Filter>Pixel Shaders</Filter>
+    </PixelShaderAssembler>
+    <PixelShaderAssembler Include="source\VFWarpSharp.vdshaders">
+      <Filter>Pixel Shaders</Filter>
+    </PixelShaderAssembler>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="autogen\VFBlendLayers.inl">
+      <Filter>Compiled Pixel Shaders</Filter>
+    </None>
+    <None Include="autogen\VFBlur.inl">
+      <Filter>Compiled Pixel Shaders</Filter>
+    </None>
+    <None Include="autogen\VFBrightCont.inl">
+      <Filter>Compiled Pixel Shaders</Filter>
+    </None>
+    <None Include="autogen\VFDeinterlace.inl">
+      <Filter>Compiled Pixel Shaders</Filter>
+    </None>
+    <None Include="autogen\VFGrayscale.inl">
+      <Filter>Compiled Pixel Shaders</Filter>
+    </None>
+    <None Include="autogen\VFInvert.inl">
+      <Filter>Compiled Pixel Shaders</Filter>
+    </None>
+    <None Include="autogen\VFMergeLayers.inl">
+      <Filter>Compiled Pixel Shaders</Filter>
+    </None>
+    <None Include="autogen\VFWarpSharp.inl">
+      <Filter>Compiled Pixel Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <YASM Include="source\a_brightcont.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_grayscale.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_reduce.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_rotate.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_sharpen.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_threshold.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_tv.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+  </ItemGroup>
+</Project>

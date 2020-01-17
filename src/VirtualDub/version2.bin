@@ -1,0 +1,17 @@
+host: "AEGIS-DEV18"         builds: 494
+host: "ALTHENA-SB2"         builds: 594
+host: "Aegis (dev19)"       builds: 2444
+host: "Aegis (sb2)"         builds: 532
+host: "Aegis (stable19)"    builds: 194
+host: "Aerith"              builds: 11
+host: "Althena"             builds: 1043
+host: "Athena"              builds: 16029
+host: "Athena64"            builds: 96
+host: "Belldandy"           builds: 7023
+host: "KOS-MOS"             builds: 5025
+host: "KOS-MOS (DEV18)"     builds: 173
+host: "KOS-MOS (SB2)"       builds: 845
+host: "Kumi64"              builds: 138
+host: "Risa"                builds: 203
+host: "Sb3"                 builds: 613
+host: "T-ELOS"              builds: 39

@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{d921cbac-0adf-46fe-a13a-810be07fe107}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1c3e605f-2c81-45ac-848a-797d11b27cce}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Win32 Source Files">
+      <UniqueIdentifier>{8ef7ea0e-ba39-4c8a-92b9-13ed851cc357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32 Header Files">
+      <UniqueIdentifier>{b46d5ed9-91b2-4a47-b7c9-1a28d53eb986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface files">
+      <UniqueIdentifier>{2de64005-5b68-424b-a969-b89e92b3f2d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCH Source Files">
+      <UniqueIdentifier>{db7b7966-496a-4c7f-80c1-b4d92c13c173}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\accel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\basetypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ctl_grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ctl_set.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32accel.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32base.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32button.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32control.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32group.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32hotkey.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32label.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32listbox.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32listview.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32peer.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32splitter.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32textedit.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\w32trackbar.cpp">
+      <Filter>Win32 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\stdafx.cpp">
+      <Filter>PCH Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\h\VD2\Dita\resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Dita\w32accel.h">
+      <Filter>Win32 Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Dita\w32base.h">
+      <Filter>Win32 Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Dita\w32control.h">
+      <Filter>Win32 Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Dita\w32peer.h">
+      <Filter>Win32 Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Dita\accel.h">
+      <Filter>Interface files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Dita\basetypes.h">
+      <Filter>Interface files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Dita\bytecode.h">
+      <Filter>Interface files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Dita\controls.h">
+      <Filter>Interface files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\VD2\Dita\interface.h">
+      <Filter>Interface files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\VD2\Dita\services.h">
+      <Filter>Interface files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\stdafx.h">
+      <Filter>PCH Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{127cab96-bb05-4f0d-905b-f1d73b1ddd3e}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{c56647e7-21aa-49ac-b32e-8f3ceb43f28b}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Interface Header Files">
+      <UniqueIdentifier>{cfb3e40e-bda9-4909-99bd-91d97e5c8db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assembly Files %28x86%29">
+      <UniqueIdentifier>{f07fa6cb-5c5c-4fe6-83f2-3b19cad06c05}</UniqueIdentifier>
+      <Extensions>.asm</Extensions>
+    </Filter>
+    <Filter Include="Source Files - IDCT Test">
+      <UniqueIdentifier>{34342764-b287-4e88-a073-c7706d7bf977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files %28x86%29">
+      <UniqueIdentifier>{9b96c9f2-15b1-4ec1-8a31-afeab93fde20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assembly Files %28AMD64%29">
+      <UniqueIdentifier>{395fcf64-5b6d-4fe5-bf89-3a50e891be31}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\common_png.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\convert_reference.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\decode_dv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\decode_huffyuv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\decode_png.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\encode_png.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\idct_mmx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\idct_reference.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MPEGCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MPEGDecoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MPEGFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\predict_reference.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\idct_test.cpp">
+      <Filter>Source Files - IDCT Test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\convert_isse.cpp">
+      <Filter>Source Files %28x86%29</Filter>
+    </ClCompile>
+    <ClCompile Include="source\convert_mmx.cpp">
+      <Filter>Source Files %28x86%29</Filter>
+    </ClCompile>
+    <ClCompile Include="source\convert_scalar.cpp">
+      <Filter>Source Files %28x86%29</Filter>
+    </ClCompile>
+    <ClCompile Include="source\idct_scalar.cpp">
+      <Filter>Source Files %28x86%29</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="h\common_png.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\MPEGCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\decode_dv.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\decode_huffyuv.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\decode_png.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\encode_png.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\MPEGConvert.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\MPEGDecoder.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\MPEGFile.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\MPEGIDCT.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\Meia\MPEGPredict.h">
+      <Filter>Interface Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\idct_scalar_asm.inl">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <YASM Include="source\a_predict_isse.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_predict_mmx.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_predict_scalar.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_predict_sse2.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_yuv2rgb.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a_yuvtable.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\mpeg_idct_mmx.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\mpeg_idct_sse2.asm">
+      <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a64_idct_sse2.asm">
+      <Filter>Assembly Files %28AMD64%29</Filter>
+    </YASM>
+    <YASM Include="source\a64_predict_sse2.asm">
+      <Filter>Assembly Files %28AMD64%29</Filter>
+    </YASM>
+  </ItemGroup>
+</Project>

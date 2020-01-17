@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="PixelShaderAssembler">
+      <Targets>_PixelShaderAssembler</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="PixelShaderAssembler"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="_PixelShaderAssembler"
+    BeforeTargets="$(PixelShaderAssemblerBeforeTargets)"
+    AfterTargets="$(PixelShaderAssemblerAfterTargets)"
+    Condition="'@(PixelShaderAssembler)' != ''"
+    DependsOnTargets="$(PixelShaderAssemblerDependsOn);ComputePixelShaderAssemblerOutput"
+    Outputs="%(PixelShaderAssembler.Outputs)"
+    Inputs="%(PixelShaderAssembler.Identity);%(PixelShaderAssembler.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <PixelShaderAssembler
+        Remove="@(PixelShaderAssembler)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <PixelShaderAssembler_tlog
+        Include="%(PixelShaderAssembler.Outputs)"
+        Condition="'%(PixelShaderAssembler.Outputs)' != '' and '%(PixelShaderAssembler.ExcludedFromBuild)' != 'true'">
+        <Source>@(PixelShaderAssembler, '|')</Source>
+      </PixelShaderAssembler_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(PixelShaderAssembler.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(PixelShaderAssembler_tlog)' != '' and '%(PixelShaderAssembler_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(TLogLocation)$(ProjectName).write.1u.tlog"
+      Lines="^%(PixelShaderAssembler_tlog.Source);@(PixelShaderAssembler_tlog-&gt;'%(Fullpath)')"
+      Encoding="Unicode" />
+    <PixelShaderAssembler
+      Condition="'@(PixelShaderAssembler)' != '' and '%(PixelShaderAssembler.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(PixelShaderAssembler.CommandLineTemplate)"
+      OutputPath="%(PixelShaderAssembler.OutputPath)"
+      AdditionalOptions="%(PixelShaderAssembler.AdditionalOptions)"
+      Inputs="%(PixelShaderAssembler.Identity)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            ComputePixelShaderAssemblerOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            ComputePixelShaderAssemblerOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="ComputePixelShaderAssemblerOutput"
+    Condition="'@(PixelShaderAssembler)' != ''">
+    <ItemGroup>
+      <PixelShaderAssemblerDirsToMake
+        Condition="'@(PixelShaderAssembler)' != '' and '%(PixelShaderAssembler.ExcludedFromBuild)' != 'true'"
+        Include="%(PixelShaderAssembler.Outputs)" />
+      <Link
+        Include="%(PixelShaderAssemblerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(PixelShaderAssemblerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(PixelShaderAssemblerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(PixelShaderAssemblerDirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+</Project>
