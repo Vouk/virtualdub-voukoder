@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "VoukoderOutput.h"
-
 #include "VoukoderTypeLib_i.c"
 
 #pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -80,7 +79,7 @@ bool VoukoderOutput::init(const wchar_t *pwszFile) {
 
 	// Define the encoder settings
 	VKENCODERCONFIG config = { 0 };
-	strcpy_s(config.video.encoder, "h264_nvenc");
+	strcpy_s(config.video.encoder, "libx264");
 	strcpy_s(config.video.options, "_pixelFormat=yuv420p");
 	strcpy_s(config.audio.encoder, "aac");
 	strcpy_s(config.audio.options, "_sampleFormat=fltp");
@@ -141,14 +140,14 @@ bool VoukoderOutput::init(const wchar_t *pwszFile) {
 }
 
 void VoukoderOutput::finalize() {
-	//
+	// Free buffers
 	for (int p = 0; p < videoFrame.planes; p++)
 		delete(videoFrame.buffer[p]);
 
 	delete(videoFrame.rowsize);
 	delete(videoFrame.buffer);
 
-	//
+	// Close Voukoder and release COM instance
 	if (pVoukoder)
 	{
 		pVoukoder->Close(TRUE);

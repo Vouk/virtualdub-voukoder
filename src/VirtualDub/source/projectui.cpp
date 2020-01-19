@@ -60,6 +60,7 @@
 #include "VideoWindow.h"
 #include "AccelEditDialog.h"
 #include "ExternalEncoderProfile.h"
+#include "VoukoderTypeLib_h.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -1318,16 +1319,6 @@ void VDProjectUI::ExportViaVoukoderAsk(bool batch) {
 
 	VDUIDialogExportViaVoukoder dlg;
 
-	VDRegistryAppKey key(g_szRegKeyPersistence);
-	
-	VDStringW encName;
-	if (key.getString("CLI Export: Encoder set", encName)) {
-		vdrefptr<VDExtEncSet> eset;
-
-		if (VDGetExternalEncoderSetByName(encName.c_str(), ~eset))
-			dlg.SetSelectedSet(eset);
-	}
-
 	if (!dlg.ShowDialog(mhwnd))
 		return;
 
@@ -2310,7 +2301,12 @@ void VDProjectUI::UpdateMainMenu(HMENU hMenu) {
 	VDEnableMenuItemW32(hMenu, ID_FILE_AVIINFO				, bSourceFileExists);
 	VDEnableMenuItemW32(hMenu, ID_FILE_SETTEXTINFO			, bSourceFileExists);
 	VDEnableMenuItemW32(hMenu, ID_FILE_EXPORTEXTERNALENCODER, bSourceFileExists);
-	VDEnableMenuItemW32(hMenu, ID_FILE_EXPORTVOUKODER       , bSourceFileExists);
+
+	IVoukoder* pVoukoder = NULL;
+	CoCreateInstance(CLSID_CoVoukoder, NULL, CLSCTX_INPROC_SERVER, IID_IVoukoder, (void**)&pVoukoder);
+	VDEnableMenuItemW32(hMenu, ID_FILE_EXPORTVOUKODER       , bSourceFileExists && pVoukoder);
+	if (pVoukoder)
+		pVoukoder->Release();
 
 	VDEnableMenuItemW32(hMenu, ID_QUEUEBATCHOPERATION_SAVEASAVI				, bSourceFileExists);
 	VDEnableMenuItemW32(hMenu, ID_QUEUEBATCHOPERATION_SAVECOMPATIBLEAVI		, bSourceFileExists);
