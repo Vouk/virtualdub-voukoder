@@ -18,10 +18,12 @@ public:
 
 	bool init(const wchar_t *szFile);
 	void finalize();
-	bool write(const void *pBuffer, uint32 cbBuffer);
+	bool writeVideoFrame(const void *pBuffer, uint32 cbBuffer);
+	bool writeAudioChunk(const void *pBuffer, uint32 cbBuffer, uint32 samples);
 
 private:
 	IVoukoder* pVoukoder;
 	VDPixmapLayout mInputLayout;
-	VKVIDEOFRAME frame = { 0 };
+	VKVIDEOFRAME videoFrame = { 0 };
+	void initVideoFrame();
 };

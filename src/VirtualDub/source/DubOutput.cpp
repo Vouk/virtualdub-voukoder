@@ -557,17 +557,16 @@ IVDMediaOutput *VDVoukoderOutputSystem::CreateSegment() {
 	IVDMediaOutput *out = vdpoly_cast<IVDMediaOutput *>(&*pOutput);
 
 	if (mVideoImageLayout.format) {
-	//if (!mVideoFormat.empty()) {
 		pOutput->SetInputLayout(mVideoImageLayout);
 		IVDMediaOutputStream* vOut = pOutput->createVideoStream();
 		vOut->setStreamInfo(mVideoStreamInfo);
-		//vOut->setFormat(&mVideoFormat[0], mVideoFormat.size());
 	}
 
 	if (!mAudioFormat.empty())
 	{
 		IVDMediaOutputStream* aOut = pOutput->createAudioStream();
 		aOut->setStreamInfo(mAudioStreamInfo);
+		aOut->setFormat(&mAudioFormat[0], mAudioFormat.size());
 	}
 
 	out->init(mFilename.c_str());

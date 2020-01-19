@@ -7,7 +7,7 @@
 
 class VoukoderOutputStream : public AVIOutputStream {
 public:
-	VoukoderOutputStream(VoukoderOutput* pParent);
+	VoukoderOutputStream(VoukoderOutput* pParent, bool isVideo);
 	~VoukoderOutputStream();
 	void write(uint32 flags, const void *pBuffer, uint32 cbBuffer, uint32 lSamples);
 	void partialWriteBegin(uint32 flags, uint32 bytes, uint32 samples);
@@ -16,16 +16,25 @@ public:
 
 private:
 	VoukoderOutput *const mpParent;
+	bool isVideo;
 };
 
-VoukoderOutputStream::VoukoderOutputStream(VoukoderOutput* pParent):
-	mpParent(pParent)
-{}
+VoukoderOutputStream::VoukoderOutputStream(VoukoderOutput* pParent, bool isVideo):
+	mpParent(pParent) {
+	this->isVideo = isVideo;
+}
 
 VoukoderOutputStream::~VoukoderOutputStream() {}
 
 void VoukoderOutputStream::write(uint32 flags, const void *pBuffer, uint32 cbBuffer, uint32 samples) {
-	mpParent->write(pBuffer, cbBuffer);
+	if (isVideo) {
+		if (mpParent->writeVideoFrame(pBuffer, cbBuffer)) 
+			throw MyError("Unable to write video frame!");
+	}
+	else {
+		if (mpParent->writeAudioChunk(pBuffer, cbBuffer, samples))
+			throw MyError("Unable to write audio chunk!");
+	}
 }
 
 void VoukoderOutputStream::partialWriteBegin(uint32 flags, uint32 bytes, uint32 samples) {
@@ -45,7 +54,7 @@ void VoukoderOutput::SetInputLayout(const VDPixmapLayout& layout) {
 IVDMediaOutputStream *VoukoderOutput::createVideoStream() {
 	VDASSERT(!videoOut);
 
-	if (!(videoOut = new_nothrow VoukoderOutputStream(this)))
+	if (!(videoOut = new_nothrow VoukoderOutputStream(this, true)))
 		throw MyMemoryError();
 
 	return videoOut;
@@ -54,16 +63,13 @@ IVDMediaOutputStream *VoukoderOutput::createVideoStream() {
 IVDMediaOutputStream *VoukoderOutput::createAudioStream() {
 	VDASSERT(!audioOut);
 
-	if (!(audioOut = new_nothrow VoukoderOutputStream(this)))
+	if (!(audioOut = new_nothrow VoukoderOutputStream(this, false)))
 		throw MyMemoryError();
 
 	return audioOut;
 }
 
 bool VoukoderOutput::init(const wchar_t *pwszFile) {
-
-	//static_cast<VoukoderOutputStream *>(videoOut)->init();
-
 	// Create the Voukoder COM instance
 	HRESULT hr = CoCreateInstance(CLSID_CoVoukoder, NULL, CLSCTX_INPROC_SERVER, IID_IVoukoder, (void**)&pVoukoder);
 	if (FAILED(hr))
@@ -74,7 +80,7 @@ bool VoukoderOutput::init(const wchar_t *pwszFile) {
 
 	// Define the encoder settings
 	VKENCODERCONFIG config = { 0 };
-	strcpy_s(config.video.encoder, "libx264");
+	strcpy_s(config.video.encoder, "h264_nvenc");
 	strcpy_s(config.video.options, "_pixelFormat=yuv420p");
 	strcpy_s(config.audio.encoder, "aac");
 	strcpy_s(config.audio.options, "_sampleFormat=fltp");
@@ -82,58 +88,65 @@ bool VoukoderOutput::init(const wchar_t *pwszFile) {
 
 	pVoukoder->SetConfig(config);
 
-	AVIStreamHeader_fixed si = videoOut->getStreamInfo();
-	const VDAVIBitmapInfoHeader *bih = (const VDAVIBitmapInfoHeader *)videoOut->getFormat();
-
 	// Video & audio settings
 	VKENCODERINFO info = { 0 };
 	wcscpy_s(info.filename, pwszFile);
 	wcscpy_s(info.application, L"VirtualDub");
-	info.video.enabled = mInputLayout.w > 0 && mInputLayout.h > 0;
+
+	// Video
+	AVIStreamHeader_fixed si = videoOut->getStreamInfo();
+	info.video.enabled = videoOut && mInputLayout.w > 0 && mInputLayout.h > 0;
 	info.video.width = mInputLayout.w;
 	info.video.height = mInputLayout.h;
 	info.video.fieldorder = FieldOrder::Progressive; //TODO
 	info.video.timebase = { (int)si.dwScale, (int)si.dwRate };
 	info.video.aspectratio = { 1, 1 }; //TODO
-	info.audio.enabled = false; //TODO
-	//info.audio.channellayout = ChannelLayout::Stereo;//TODO
-	//info.audio.numberChannels = 2;//TODO
-	//info.audio.samplerate = 48000;//TODO
 
+	// Audio
+	info.audio.enabled = audioOut != NULL;
+	if (info.audio.enabled) {
+		const WAVEFORMATEX& wfex = *(const WAVEFORMATEX *)audioOut->getFormat();
+
+		if (wfex.wFormatTag != WAVE_FORMAT_PCM)
+			throw MyError("Voukoder doesn't support compressed audio.");
+
+		if (wfex.nChannels == 1) {
+			info.audio.channellayout = ChannelLayout::Mono;
+			info.audio.numberChannels = 1;
+		}
+		else if (wfex.nChannels == 2) {
+			info.audio.channellayout = ChannelLayout::Stereo;
+			info.audio.numberChannels = 2;
+		}
+		else if (wfex.nChannels == 6) {
+			info.audio.channellayout = ChannelLayout::FivePointOne;
+			info.audio.numberChannels = 6;
+		}
+		else
+			throw MyError("Unsupported audio channel layout.");
+
+		info.audio.samplerate = wfex.nSamplesPerSec;
+	}
+
+	// Open Voukoder
 	if (FAILED(pVoukoder->Open(info)))
 	{
 		MessageBox(NULL, "Can not open voukoder", "Voukoder", MB_OK | MB_ICONERROR);
 		return false;
 	}
 
-	frame.width = mInputLayout.w;
-	frame.height = mInputLayout.h;
-	frame.planes = 3;
-	frame.pass = 1;
-	strcpy_s(frame.format, "yuv420p");
-
-	// Rowsizes for each plane
-	frame.rowsize = new int[frame.planes]{
-		(int)mInputLayout.pitch,
-		(int)mInputLayout.pitch2,
-		(int)mInputLayout.pitch3
-	};
-
-	// Fill frame buffer
-	frame.buffer = new BYTE *[frame.planes];
-	for (int p = 0; p < frame.planes; p++)
-		frame.buffer[p] = new uint8_t[(size_t)frame.rowsize[p] * frame.height];
+	initVideoFrame();
 
 	return true;
 }
 
 void VoukoderOutput::finalize() {
 	//
-	for (int p = 0; p < frame.planes; p++)
-		free(frame.buffer[p]);
+	for (int p = 0; p < videoFrame.planes; p++)
+		delete(videoFrame.buffer[p]);
 
-	free(frame.rowsize);
-	free(frame.buffer);
+	delete(videoFrame.rowsize);
+	delete(videoFrame.buffer);
 
 	//
 	if (pVoukoder)
@@ -143,12 +156,76 @@ void VoukoderOutput::finalize() {
 	}
 }
 
-bool VoukoderOutput::write(const void *pBuffer, uint32 cbBuffer) {
+void VoukoderOutput::initVideoFrame() {
+	//
+	videoFrame.width = mInputLayout.w;
+	videoFrame.height = mInputLayout.h;
+	videoFrame.planes = 3;
+	videoFrame.pass = 1;
+	strcpy_s(videoFrame.format, "yuv420p");
+
+	// Rowsizes for each plane
+	videoFrame.rowsize = new int[videoFrame.planes]{
+		(int)mInputLayout.pitch,
+		(int)mInputLayout.pitch2,
+		(int)mInputLayout.pitch3
+	};
+
+	// Fill frame buffer
+	videoFrame.buffer = new BYTE *[videoFrame.planes];
+	for (int p = 0; p < videoFrame.planes; p++)
+		videoFrame.buffer[p] = new BYTE[(size_t)videoFrame.rowsize[p] * videoFrame.height];
+}
+
+bool VoukoderOutput::writeVideoFrame(const void *pBuffer, uint32 cbBuffer) {
 	// Fill the frame (I420 > planar)
-	memcpy(frame.buffer[0], (BYTE*)pBuffer, (size_t)frame.rowsize[0] * frame.height);
-	memcpy(frame.buffer[1], (BYTE*)pBuffer + (int)mInputLayout.data2, ((size_t)frame.rowsize[1] / 2) * frame.height);
-	memcpy(frame.buffer[2], (BYTE*)pBuffer + (int)mInputLayout.data3, ((size_t)frame.rowsize[2] / 2) * frame.height);
-	   	 
+	memcpy(videoFrame.buffer[0], (BYTE*)pBuffer, (size_t)videoFrame.rowsize[0] * videoFrame.height);
+	memcpy(videoFrame.buffer[1], (BYTE*)pBuffer + (int)mInputLayout.data2, ((size_t)videoFrame.rowsize[1] / 2) * videoFrame.height);
+	memcpy(videoFrame.buffer[2], (BYTE*)pBuffer + (int)mInputLayout.data3, ((size_t)videoFrame.rowsize[2] / 2) * videoFrame.height);
+
 	// Send frame to Voukoder
-	return FAILED(pVoukoder->SendVideoFrame(frame));
+	return FAILED(pVoukoder->SendVideoFrame(videoFrame));
+}
+
+bool VoukoderOutput::writeAudioChunk(const void *pBuffer, uint32 cbBuffer, uint32 samples) {
+	const WAVEFORMATEX& wfex = *(const WAVEFORMATEX *)audioOut->getFormat();
+	
+	if (wfex.wFormatTag != WAVE_FORMAT_PCM)
+		throw MyError("Voukoder doesn't support compressed audio.");
+
+	// Fill audio chunk
+	VKAUDIOCHUNK chunk = { 0 };
+	chunk.buffer = new BYTE *[1];
+	chunk.samples = samples;
+	chunk.buffer[0] = new uint8_t[cbBuffer];
+	chunk.blockSize = wfex.nBlockAlign;
+	chunk.planes = 1;
+	chunk.sampleRate = wfex.nSamplesPerSec;
+
+	if (wfex.wBitsPerSample == 16)
+		strcpy_s(chunk.format, "s16");
+	else if (wfex.wBitsPerSample == 32)
+		strcpy_s(chunk.format, "s32");
+	else
+		throw MyError("Unsupported audio bit depth.");
+
+	if (wfex.nChannels == 1)
+		chunk.layout = ChannelLayout::Mono;
+	else if (wfex.nChannels == 2)
+		chunk.layout = ChannelLayout::Stereo;
+	else if (wfex.nChannels == 6)
+		chunk.layout = ChannelLayout::FivePointOne;
+	else
+		throw MyError("Unsupported audio channel layout.");
+
+	// Copy buffer
+	memcpy(chunk.buffer[0], pBuffer, cbBuffer);
+
+	bool ret = FAILED(pVoukoder->SendAudioSampleChunk(chunk));
+
+	delete(chunk.buffer[0]);
+	delete(chunk.buffer);
+
+	// Send chunk to Voukoder
+	return ret;
 }
