@@ -32,6 +32,7 @@
 #include "AVIOutputSegmented.h"
 #include "AVIOutputCLI.h"
 #include "ExternalEncoderProfile.h"
+#include "VoukoderOutput.h"
 
 ///////////////////////////////////////////
 
@@ -538,6 +539,63 @@ int VDAVIOutputCLISystem::GetVideoOutputFormatOverride() {
 
 bool VDAVIOutputCLISystem::IsCompressedAudioAllowed() {
 	return mpAudEncProfile && !mpAudEncProfile->mbBypassCompression;
+}
+
+///////////////////////////////////////////////////////////////////////////
+//
+//	VDVoukoderOutputSystem
+//
+///////////////////////////////////////////////////////////////////////////
+
+VDVoukoderOutputSystem::VDVoukoderOutputSystem(const wchar_t *pszFilename):
+	mFilename(pszFilename) {}
+
+VDVoukoderOutputSystem::~VDVoukoderOutputSystem() {}
+
+IVDMediaOutput *VDVoukoderOutputSystem::CreateSegment() {
+	vdautoptr<VoukoderOutput> pOutput(new VoukoderOutput());
+	IVDMediaOutput *out = vdpoly_cast<IVDMediaOutput *>(&*pOutput);
+
+	if (mVideoImageLayout.format) {
+	//if (!mVideoFormat.empty()) {
+		pOutput->SetInputLayout(mVideoImageLayout);
+		IVDMediaOutputStream* vOut = pOutput->createVideoStream();
+		vOut->setStreamInfo(mVideoStreamInfo);
+		//vOut->setFormat(&mVideoFormat[0], mVideoFormat.size());
+	}
+
+	if (!mAudioFormat.empty())
+	{
+		IVDMediaOutputStream* aOut = pOutput->createAudioStream();
+		aOut->setStreamInfo(mAudioStreamInfo);
+	}
+
+	out->init(mFilename.c_str());
+
+	pOutput.release();
+
+	return out;
+}
+
+void VDVoukoderOutputSystem::CloseSegment(IVDMediaOutput *pSegment, bool bLast, bool finalize) {
+	vdautoptr<IAVIOutputCLI> pFile(vdpoly_cast<IAVIOutputCLI *>(pSegment));
+	pSegment->finalize();
+}
+
+bool VDVoukoderOutputSystem::AcceptsVideo() {
+	return true;
+}
+
+bool VDVoukoderOutputSystem::AcceptsAudio() {
+	return true;
+}
+
+int VDVoukoderOutputSystem::GetVideoOutputFormatOverride() {
+	return nsVDPixmap::kPixFormat_YUV420_Planar;
+}
+
+bool VDVoukoderOutputSystem::IsCompressedAudioAllowed() {
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////

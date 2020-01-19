@@ -1,13 +1,13 @@
 	segment	.const
 
-	global	_version_num
-	global	_version_time
-	global	_version_date
-	global	_version_buildmachine
+	global	version_num
+	global	version_time
+	global	version_date
+	global	version_buildmachine
 
-_version_num	dd	35495
-_version_time	db	"Fri Jan 17 14:02:17 2020",0
-_version_date	db	"January 17, 2020",0
-_version_buildmachine	db	"WS-4770",0
+version_num	dd	35586
+version_time	db	"Sun Jan 19 14:21:31 2020",0
+version_date	db	"January 19, 2020",0
+version_buildmachine	db	"WS-4770",0
 
 	end

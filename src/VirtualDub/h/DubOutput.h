@@ -219,6 +219,26 @@ private:
 	VDExtEncProfile *mpMuxProfile;
 };
 
+class VDVoukoderOutputSystem : public VDDubberOutputSystem {
+	VDVoukoderOutputSystem(const VDVoukoderOutputSystem&);
+	VDVoukoderOutputSystem& operator=(const VDVoukoderOutputSystem&);
+public:
+	VDVoukoderOutputSystem(const wchar_t *pszFilename);
+	~VDVoukoderOutputSystem();
+
+	IVDMediaOutput *CreateSegment();
+	void CloseSegment(IVDMediaOutput *pSegment, bool bLast, bool finalize);
+	bool AcceptsVideo();
+	bool AcceptsAudio();
+	bool IsVideoImageOutputEnabled() { return true; }
+	bool IsVideoImageOutputRequired() { return true; }
+	int GetVideoOutputFormatOverride();
+	bool IsCompressedAudioAllowed();
+
+private:
+	VDStringW	mFilename;
+};
+
 class VDAVIOutputImagesSystem : public VDDubberOutputSystem {
 public:
 	VDAVIOutputImagesSystem();

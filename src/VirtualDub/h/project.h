@@ -165,6 +165,7 @@ public:
 	void SaveRawAudio(const wchar_t *pFilename, bool propagateErrors, DubOptions *optsOverride = NULL);
 	void SaveRawVideo(const wchar_t *pFilename, const VDAVIOutputRawVideoFormat& format, bool propagateErrors, DubOptions *optsOverride = NULL);
 	void ExportViaEncoder(const wchar_t *filename, const wchar_t *encSetName, bool propagateErrors, DubOptions *optsOverride = NULL);
+	void ExportViaVoukoder(const wchar_t *filename, const wchar_t *encSetName, bool propagateErrors, DubOptions *optsOverride = NULL);
 
 	void StartServer(const char *name = NULL);
 	void ShowInputInfo();

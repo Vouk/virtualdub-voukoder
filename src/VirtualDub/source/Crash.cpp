@@ -1006,7 +1006,7 @@ static void VDDebugDumpCrashContext(EXCEPTION_POINTERS *pExc, IVDProtectedScopeO
 		out.writef(" in module '%.64s'.", mi.name);
 	else
 #ifdef _M_AMD64
-		out.writef(" at "PTR_08lx".", pExc->ContextRecord->Rip);
+		out.writef(" at " PTR_08lx ".", pExc->ContextRecord->Rip);
 #else
 		out.writef(" at " PTR_08lx ".", pExc->ContextRecord->Eip);
 #endif

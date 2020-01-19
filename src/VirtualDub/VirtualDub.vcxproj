@@ -192,7 +192,7 @@ yasm -g cv8 -f $(Platform) -o "$(IntDir)verstub.obj" verstub.asm
     </PreLinkEvent>
     <Link>
       <AdditionalDependencies>winmm.lib;vfw32.lib;dxguid.lib;msacm32.lib;comctl32.lib;$(IntDir)verstub.obj;priss.lib;sylia.lib;system.lib;dita.lib;meia.lib;kasumi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)Veedub64.exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(VDLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libc;libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -208,7 +208,7 @@ yasm -g cv8 -f $(Platform) -o "$(IntDir)verstub.obj" verstub.asm
     </Bscmake>
     <PostBuildEvent>
       <Message>Compiling function location database...</Message>
-      <Command>$(VDBaseDir)\out\$(VDConfigDirTag)\Asuka mapconv $(VDOutputPath)\Veedub64.map $(VDOutputPath)\Veedub64.vdi res\amd64.vdi</Command>
+      <Command>$(VDBaseDir)\out\$(VDConfigDirTag)\Asuka mapconv $(VDOutputPath)\VirtualDub.map $(VDOutputPath)\VirtualDub.vdi res\amd64.vdi</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -302,7 +302,7 @@ yasm -g cv8 -f $(Platform) -o "$(IntDir)verstub.obj" verstub.asm
     </PreLinkEvent>
     <Link>
       <AdditionalDependencies>winmm.lib;vfw32.lib;dxguid.lib;msacm32.lib;comctl32.lib;$(IntDir)verstub.obj;priss.lib;sylia.lib;system.lib;dita.lib;meia.lib;kasumi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)Veedub64.exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(VDLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libc;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -321,7 +321,7 @@ yasm -g cv8 -f $(Platform) -o "$(IntDir)verstub.obj" verstub.asm
     </Bscmake>
     <PostBuildEvent>
       <Message>Compiling function location database...</Message>
-      <Command>$(VDBaseDir)\out\$(VDConfigDirTag)\Asuka mapconv $(VDOutputPath)\Veedub64.map $(VDOutputPath)\Veedub64.vdi res\amd64.vdi</Command>
+      <Command>$(VDBaseDir)\out\$(VDConfigDirTag)\Asuka mapconv $(VDOutputPath)\VirtualDub.map $(VDOutputPath)\VirtualDub.vdi res\amd64.vdi</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -558,6 +558,7 @@ yasm -g cv8 -f $(Platform) -o "$(IntDir)verstub.obj" verstub.asm
     <ClCompile Include="source\VideoSource.cpp" />
     <ClCompile Include="source\VideoSourceImages.cpp" />
     <ClCompile Include="source\VideoWindow.cpp" />
+    <ClCompile Include="source\VoukoderOutput.cpp" />
     <ClCompile Include="source\yuvcodec.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -721,6 +722,8 @@ yasm -g cv8 -f $(Platform) -o "$(IntDir)verstub.obj" verstub.asm
     <ClInclude Include="h\VideoSourceImages.h" />
     <ClInclude Include="h\VideoWindow.h" />
     <ClInclude Include="h\VirtualDub.h" />
+    <ClInclude Include="h\VoukoderOutput.h" />
+    <ClInclude Include="h\VoukoderTypeLib_h.h" />
     <ClInclude Include="h\yuvcodec.h" />
     <ClInclude Include="res\resource.h" />
   </ItemGroup>

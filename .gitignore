@@ -32,3 +32,6 @@
 *.app
 
 .vs
+/lib
+/obj
+/out

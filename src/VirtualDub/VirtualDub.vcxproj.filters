@@ -704,6 +704,9 @@
     <ClCompile Include="source\af_timestretch.cpp">
       <Filter>Filters\Source - Audio Filters</Filter>
     </ClCompile>
+    <ClCompile Include="source\VoukoderOutput.cpp">
+      <Filter>Source - I/O drivers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\afiltdlg.h">
@@ -1191,6 +1194,12 @@
     </ClInclude>
     <ClInclude Include="..\h\vd2\plugin\vdvideoutil.h">
       <Filter>Filters\Interface headers - plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VoukoderOutput.h">
+      <Filter>Headers - I/O drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\VoukoderTypeLib_h.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
