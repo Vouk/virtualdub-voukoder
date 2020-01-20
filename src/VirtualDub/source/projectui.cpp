@@ -1243,7 +1243,8 @@ namespace {
 	public:
 		IVoukoder* mpVoukoder = NULL;
 		VDStringW mFileName;
-		VKENCODERCONFIG mConfig;
+		VKENCODERCONFIG mConfig = { 0 };
+		VKENCODERCONFIG mTmpConfig = { 0 };
 
 	public:
 		VDOutputVoukoderOptionsDialog() {}
@@ -1257,6 +1258,21 @@ namespace {
 				mpBase = pBase;
 				SetCaption(100, VDGetLastLoadSavePath(kFileDialog_VoukoderOut).c_str());				
 
+				VDRegistryAppKey key(g_szRegKeyPersistence);
+				int len = key.getBinaryLength("Voukoder.Config");
+				if (len == sizeof(VKENCODERCONFIG)) {
+					key.getBinary("Voukoder.Config", (char *)&mTmpConfig, len);
+				}
+				else {
+					strcpy_s(mTmpConfig.video.encoder, "libx264");
+					strcpy_s(mTmpConfig.video.options, "_pixelFormat=yuv420p");
+					strcpy_s(mTmpConfig.audio.encoder, "aac");
+					strcpy_s(mTmpConfig.audio.options, "_sampleFormat=fltp");
+					strcpy_s(mTmpConfig.format.container, "mp4");
+				}
+
+				mpVoukoder->SetConfig(mTmpConfig);
+
 				pBase->ExecuteAllLinks();
 			}
 			else if (type == kEventDetach) {
@@ -1266,21 +1282,10 @@ namespace {
 			else if (type == kEventSelect) {
 				if (id == 10) {
 					mFileName = GetCaption(100);
-					mpVoukoder->GetConfig(&mConfig);
+					mConfig = mTmpConfig;
 
-					// Apply default settings if no config is set
-					if (strlen(mConfig.format.container) == 0 ||
-						strlen(mConfig.video.encoder) == 0 ||
-						strlen(mConfig.video.options) == 0 ||
-						strlen(mConfig.audio.encoder) == 0 ||
-						strlen(mConfig.audio.options) == 0)
-					{
-						strcpy_s(mConfig.video.encoder, "libx264");
-						strcpy_s(mConfig.video.options, "_pixelFormat=yuv420p");
-						strcpy_s(mConfig.audio.encoder, "aac");
-						strcpy_s(mConfig.audio.options, "_sampleFormat=fltp");
-						strcpy_s(mConfig.format.container, "mp4");
-					}
+					VDRegistryAppKey key(g_szRegKeyPersistence);
+					key.setBinary("Voukoder.Config", (const char *)&mConfig, sizeof(VKENCODERCONFIG));
 
 					pBase->EndModal(true);
 					return true;
@@ -1296,10 +1301,11 @@ namespace {
 						SetCaption(100, filename.c_str());
 				}
 				else if (id == 301) {
-					if (mpVoukoder) {
-						BOOL isOkay;
-						mpVoukoder->ShowVoukoderDialog(TRUE, TRUE, &isOkay, NULL, GetModuleHandle(NULL));
-					}
+					BOOL isOkay;
+					mpVoukoder->ShowVoukoderDialog(TRUE, TRUE, &isOkay, NULL, GetModuleHandle(NULL));
+						
+					if (isOkay)
+						mpVoukoder->GetConfig(&mTmpConfig);
 				}
 			}
 			return false;
