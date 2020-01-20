@@ -24,6 +24,7 @@
 #include <vd2/Kasumi/pixmaputils.h>
 #include "AVIStripeSystem.h"
 #include "fixes.h"
+#include "VoukoderTypeLib_h.h"
 
 class IVDMediaOutput;
 class VDExtEncProfile;
