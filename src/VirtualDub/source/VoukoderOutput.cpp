@@ -46,6 +46,10 @@ VoukoderOutput::VoukoderOutput() {}
 
 VoukoderOutput::~VoukoderOutput() {}
 
+void VoukoderOutput::SetConfiguration(const VKENCODERCONFIG& config) {
+	mConfig = config;
+}
+
 void VoukoderOutput::SetInputLayout(const VDPixmapLayout& layout) {
 	mInputLayout = layout;
 }
@@ -77,15 +81,8 @@ bool VoukoderOutput::init(const wchar_t *pwszFile) {
 		return false;
 	}
 
-	// Define the encoder settings
-	VKENCODERCONFIG config = { 0 };
-	strcpy_s(config.video.encoder, "libx264");
-	strcpy_s(config.video.options, "_pixelFormat=yuv420p");
-	strcpy_s(config.audio.encoder, "aac");
-	strcpy_s(config.audio.options, "_sampleFormat=fltp");
-	strcpy_s(config.format.container, "mp4");
-
-	pVoukoder->SetConfig(config);
+	// Apply the encoder settings
+	pVoukoder->SetConfig(mConfig);
 
 	// Video & audio settings
 	VKENCODERINFO info = { 0 };

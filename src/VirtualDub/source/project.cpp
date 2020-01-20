@@ -1567,11 +1567,11 @@ void VDProject::ExportViaEncoder(const wchar_t *filename, const wchar_t *setName
 	RunOperation(&out, TRUE, optsOverride, 0, propagateErrors);
 }
 
-void VDProject::ExportViaVoukoder(const wchar_t *filename, const wchar_t *setName, bool propagateErrors, DubOptions *optsOverride) {
-	//if (!inputVideo)
-	//	throw MyError("No input file to process.");
+void VDProject::ExportViaVoukoder(const wchar_t *filename, const VKENCODERCONFIG config, bool propagateErrors, DubOptions *optsOverride) {
+	if (!inputVideo)
+		throw MyError("No input file to process.");
 
-	VDVoukoderOutputSystem out(filename);
+	VDVoukoderOutputSystem out(filename, config);
 	RunOperation(&out, TRUE, optsOverride, 0, propagateErrors);
 }
 

@@ -547,14 +547,17 @@ bool VDAVIOutputCLISystem::IsCompressedAudioAllowed() {
 //
 ///////////////////////////////////////////////////////////////////////////
 
-VDVoukoderOutputSystem::VDVoukoderOutputSystem(const wchar_t *pszFilename):
-	mFilename(pszFilename) {}
+VDVoukoderOutputSystem::VDVoukoderOutputSystem(const wchar_t *pszFilename, const VKENCODERCONFIG config):
+	mFilename(pszFilename),
+	mConfig(config) {}
 
 VDVoukoderOutputSystem::~VDVoukoderOutputSystem() {}
 
 IVDMediaOutput *VDVoukoderOutputSystem::CreateSegment() {
 	vdautoptr<VoukoderOutput> pOutput(new VoukoderOutput());
 	IVDMediaOutput *out = vdpoly_cast<IVDMediaOutput *>(&*pOutput);
+
+	pOutput->SetConfiguration(mConfig);
 
 	if (mVideoImageLayout.format) {
 		pOutput->SetInputLayout(mVideoImageLayout);

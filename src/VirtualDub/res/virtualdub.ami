@@ -843,6 +843,27 @@ dialog 3001, "Create animated GIF" : aspect=140, maxw=350, align=fill {
 	}
 }
 
+dialog 3002, "Voukoder export" : aspect=140, maxw=350, align=fill {
+	set 0 : vertical, spacing=6, align=fill {
+		grid 0 : spacing=6, align=fill {
+			column 0: minw=60;
+			column 1: affinity=1;
+
+			label 0, "&Filename" : valign=center;
+			set 0 {
+				textedit 100, "" : minw=200, sunken, align=fill, valign=fill;
+				button 300, "&..." : valign=fill;
+			}
+
+			nextrow;
+
+			button 301, "&Configure ..." : align=right, colspan=2;
+		}
+
+		include template kTemplateOKCancel;
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // output window for resampler benchmark

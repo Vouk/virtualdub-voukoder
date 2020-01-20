@@ -11,6 +11,7 @@ public:
 	VoukoderOutput();
 	~VoukoderOutput();
 
+	void SetConfiguration(const VKENCODERCONFIG& config);
 	void SetInputLayout(const VDPixmapLayout& layout);
 
 	IVDMediaOutputStream *createVideoStream();
@@ -23,6 +24,7 @@ public:
 
 private:
 	IVoukoder* pVoukoder;
+	VKENCODERCONFIG mConfig;
 	VDPixmapLayout mInputLayout;
 	VKVIDEOFRAME videoFrame = { 0 };
 	void initVideoFrame();

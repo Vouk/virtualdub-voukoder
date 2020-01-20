@@ -73,6 +73,7 @@ namespace {
 		kFileDialog_FLMOut			= 'flmo',
 		kFileDialog_GIFOut			= 'gifo',
 		kFileDialog_ExtOut			= 'exto',
+		kFileDialog_VoukoderOut     = 'vuko',
 	};
 
 	enum {
@@ -1237,92 +1238,93 @@ void VDProjectUI::ExportViaEncoderAsk(bool batch) {
 	}
 }
 
-class VDUIDialogExportViaVoukoder : public VDDialogFrameW32 {
-public:
-	VDUIDialogExportViaVoukoder();
+namespace {
+	class VDOutputVoukoderOptionsDialog : public VDDialogBase {
+	public:
+		IVoukoder* mpVoukoder = NULL;
+		VDStringW mFileName;
+		VKENCODERCONFIG mConfig;
 
-	void SetSelectedSet(VDExtEncSet *eset) { mpSelectedSet = eset; }
-	VDExtEncSet *GetSelectedSet() const { return mpSelectedSet; }
+	public:
+		VDOutputVoukoderOptionsDialog() {}
 
-protected:
-	bool OnLoaded();
-	void OnDestroy();
-	void OnDataExchange(bool write);
+		bool HandleUIEvent(IVDUIBase *pBase, IVDUIWindow *pWin, uint32 id, eEventType type, int item) {
+			if (type == kEventAttach) {
+				CoCreateInstance(CLSID_CoVoukoder, NULL, CLSCTX_INPROC_SERVER, IID_IVoukoder, (void**)&mpVoukoder);
+				if (!mpVoukoder)
+					return false;
 
-	vdrefptr<VDExtEncSet> mpSelectedSet;
-	typedef vdfastvector<VDExtEncSet *> Sets;
-	Sets mSets;
+				mpBase = pBase;
+				SetCaption(100, VDGetLastLoadSavePath(kFileDialog_VoukoderOut).c_str());				
 
-	struct SetSortByName {
-		bool operator()(const VDExtEncSet *x, const VDExtEncSet *y) const {
-			return vdwcsicmp(x->mName.c_str(), y->mName.c_str()) < 0;
+				pBase->ExecuteAllLinks();
+			}
+			else if (type == kEventDetach) {
+				if (mpVoukoder)
+					mpVoukoder->Release();
+			}
+			else if (type == kEventSelect) {
+				if (id == 10) {
+					mFileName = GetCaption(100);
+					mpVoukoder->GetConfig(&mConfig);
+
+					// Apply default settings if no config is set
+					if (strlen(mConfig.format.container) == 0 ||
+						strlen(mConfig.video.encoder) == 0 ||
+						strlen(mConfig.video.options) == 0 ||
+						strlen(mConfig.audio.encoder) == 0 ||
+						strlen(mConfig.audio.options) == 0)
+					{
+						strcpy_s(mConfig.video.encoder, "libx264");
+						strcpy_s(mConfig.video.options, "_pixelFormat=yuv420p");
+						strcpy_s(mConfig.audio.encoder, "aac");
+						strcpy_s(mConfig.audio.options, "_sampleFormat=fltp");
+						strcpy_s(mConfig.format.container, "mp4");
+					}
+
+					pBase->EndModal(true);
+					return true;
+				}
+				else if (id == 11) {
+					pBase->EndModal(false);
+					return true;
+				}
+				else if (id == 300) {
+					const VDStringW filename(VDGetSaveFileName(kFileDialog_VoukoderOut, (VDGUIHandle)vdpoly_cast<IVDUIWindowW32 *>(pBase)->GetHandleW32(), L"Save media file", L"All files (*.*)\0*.*\0", NULL));
+
+					if (!filename.empty())
+						SetCaption(100, filename.c_str());
+				}
+				else if (id == 301) {
+					if (mpVoukoder) {
+						BOOL isOkay;
+						mpVoukoder->ShowVoukoderDialog(TRUE, TRUE, &isOkay, NULL, GetModuleHandle(NULL));
+					}
+				}
+			}
+			return false;
 		}
 	};
-};
-
-VDUIDialogExportViaVoukoder::VDUIDialogExportViaVoukoder()
-	: VDDialogFrameW32(IDD_OUTPUT_CLI)
-{
-}
-
-bool VDUIDialogExportViaVoukoder::OnLoaded() {
-	uint32 n = VDGetExternalEncoderSetCount();
-	for (uint32 i = 0; i < n; ++i) {
-		vdrefptr<VDExtEncSet> eset;
-		if (VDGetExternalEncoderSetByIndex(i, ~eset)) {
-			mSets.push_back(eset);
-			eset.release();
-		}
-	}
-
-	std::sort(mSets.begin(), mSets.end(), SetSortByName());
-
-	for (uint32 i = 0; i < n; ++i) {
-		VDExtEncSet *eset = mSets[i];
-
-		LBAddString(IDC_LIST, eset->mName.c_str());
-	}
-
-	OnDataExchange(false);
-	SetFocusToControl(IDC_LIST);
-	return true;
-}
-
-void VDUIDialogExportViaVoukoder::OnDestroy() {
-	while (!mSets.empty()) {
-		mSets.back()->Release();
-		mSets.pop_back();
-	}
-}
-
-void VDUIDialogExportViaVoukoder::OnDataExchange(bool write) {
-	if (write) {
-		int idx = LBGetSelectedIndex(IDC_LIST);
-
-		if ((unsigned)idx < mSets.size())
-			mpSelectedSet = mSets[idx];
-		else
-			mpSelectedSet = NULL;
-	}
-	else {
-		Sets::iterator it(std::find(mSets.begin(), mSets.end(), mpSelectedSet));
-		if (it != mSets.end())
-			LBSetSelectedIndex(IDC_LIST, it - mSets.begin());
-		else
-			LBSetSelectedIndex(IDC_LIST, -1);
-	}
 }
 
 void VDProjectUI::ExportViaVoukoderAsk(bool batch) {
 	if (!inputVideo)
 		throw MyError("No input video stream to process.");
 
-	VDUIDialogExportViaVoukoder dlg;
+	vdautoptr<IVDUIWindow> peer(VDUICreatePeer(mhwnd));
+	IVDUIWindow *pWin = VDCreateDialogFromResource(3002, peer);
+	VDOutputVoukoderOptionsDialog dlg;
 
-	if (!dlg.ShowDialog(mhwnd))
-		return;
+	IVDUIBase *pBase = vdpoly_cast<IVDUIBase *>(pWin);
 
-	ExportViaVoukoder(L"c:\\Users\\Daniel\\test.mp4", L"ABC", false);
+	pBase->SetCallback(&dlg, false);
+	int result = pBase->DoModal();
+
+	peer->Shutdown();
+
+	if (result) {
+		ExportViaVoukoder(dlg.mFileName.c_str(), dlg.mConfig, false);
+	}
 }
 
 void VDProjectUI::SaveConfigurationAsk() {

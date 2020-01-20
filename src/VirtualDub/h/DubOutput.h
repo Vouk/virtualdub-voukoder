@@ -223,7 +223,7 @@ class VDVoukoderOutputSystem : public VDDubberOutputSystem {
 	VDVoukoderOutputSystem(const VDVoukoderOutputSystem&);
 	VDVoukoderOutputSystem& operator=(const VDVoukoderOutputSystem&);
 public:
-	VDVoukoderOutputSystem(const wchar_t *pszFilename);
+	VDVoukoderOutputSystem(const wchar_t *pszFilename, const VKENCODERCONFIG config);
 	~VDVoukoderOutputSystem();
 
 	IVDMediaOutput *CreateSegment();
@@ -237,6 +237,7 @@ public:
 
 private:
 	VDStringW	mFilename;
+	VKENCODERCONFIG mConfig;
 };
 
 class VDAVIOutputImagesSystem : public VDDubberOutputSystem {
