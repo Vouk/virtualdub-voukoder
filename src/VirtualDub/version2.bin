@@ -4,7 +4,7 @@ host: "Aegis (dev19)"       builds: 2444
 host: "Aegis (sb2)"         builds: 532
 host: "Aegis (stable19)"    builds: 194
 host: "Aerith"              builds: 11
-host: "Althena"             builds: 1171
+host: "Althena"             builds: 1172
 host: "Athena"              builds: 16029
 host: "Athena64"            builds: 96
 host: "Belldandy"           builds: 7023
